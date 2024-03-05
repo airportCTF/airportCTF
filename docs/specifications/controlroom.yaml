@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Control Room Service
+  version: 1.0.0
+servers:
+  - url: https://airport.com
+paths:
+  /control/flights:
+    get:
+      summary: Get all flights
+      responses:
+        '200':
+          description: OK
+  /control/flight:
+    get:
+      summary: Get specific flight details
+      parameters:
+        - in: query
+          name: flight
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Ticket Purchase Service
+  version: 1.0.0
+servers:
+  - url: https://airport.com
+paths:
+  /newticket:
+    post:
+      summary: Create a new ticket
+      parameters:
+        - in: query
+          name: passport
+          schema:
+            type: integer
+        - in: query
+          name: flight
+          schema:
+            type: string
+        - in: query
+          name: datetime
+          schema:
+            type: string
+        - in: query
+          name: bookingnumber
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /getticketsbypassport:
+    get:
+      summary: Get tickets by passport number
+      parameters:
+        - in: query
+          name: passport
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+  /getticketsbyflight:
+    get:
+      summary: Get tickets by flight number
+      parameters:
+        - in: query
+          name: flight
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+  /getticketsbybookingnumber:
+    get:
+      summary: Get tickets by booking number
+      parameters:
+        - in: query
+          name: bookingnumber
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /deleteticket:
+    delete:
+      summary: Delete a ticket by PNR
+      parameters:
+        - in: query
+          name: pnr
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK

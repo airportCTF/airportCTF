@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: Personal Account Service
+  version: 1.0.0
+servers:
+  - url: https://airport.com
+paths:
+  /profile:
+    get:
+      summary: Get user profile
+      parameters:
+        - in: query
+          name: uid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Change passport number
+      parameters:
+        - in: query
+          name: number
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+  /tickets:
+    get:
+      summary: Get available tickets
+      parameters:
+        - in: query
+          name: available
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Buy a ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        passport:
+          type: integer
+        flight:
+          type: string
+        datetime:
+          type: string
+        bookingnumber:
+          type: string
