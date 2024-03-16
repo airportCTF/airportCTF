@@ -1,0 +1,296 @@
+openapi: 3.0.0
+info:
+  title: Спецификация веб-сайта аэропорта
+  description: Спецификация для написания сервиса для соревнования BlackBird Attack/Defence по информационной безопасности.
+  contact:
+    name: Bogdanov Danila
+    url: https://t.me/Dbugdanov
+  version: 0.0.2
+servers:
+  - url: https://airport.com/api/
+    description: production server
+  - url: http://localhost:8000/api/
+    description: Dev server
+
+tags:
+  - name: Ticket
+    description: All methods about tickets
+  - name: Profile
+    description: All methods about account and authentication
+  - name: ControlRoom
+    description: All methods about managing flights on Admin ControlRoom
+
+
+paths:
+  /v1/tickets:
+    get:
+      summary: Method for getting all tickets
+      description: Get all tickets that are saved in DataBase.
+      operationId: getTickets
+      tags:
+        - Ticket
+      parameters:
+        - name: available
+          in: query
+          description: get tickets that are available for buy, or that was bought by somebody
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: hidden
+          in: query
+          description: Show tickets that are hidden for common users
+          required: false
+          schema:
+            type: boolean
+            enum:
+              - true
+              - false
+        - name: passport
+          in: query
+          description: Show tickets for selected passport
+          required: false
+          schema:
+            type: integer
+            enum:
+              - 00001
+              - 00002
+              - 00003
+        - name: flight
+          in: query
+          description: Show tickets for selected flight
+          required: false
+          schema:
+            type: integer
+        - name: bookingNumber
+          in: query
+          description: Show tickets for selected booking number
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+        403:
+          description: You are not allowed to see uncommon tickets
+        500:
+          description: Internal server error
+    post:
+      summary: Creates a new Ticket
+      requestBody:
+        description: Create ticket
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ticket"
+      tags:
+        - Ticket
+      responses:
+        201:
+          description: Ticket created
+        403:
+          description: You are not allowed to create tickets
+    delete:
+      summary: Deletes ticket by PNR
+      requestBody:
+        description: Create ticket
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ticket"
+      tags:
+        - Ticket
+      responses:
+        200:
+          description: Ticket deleted
+        403:
+          description: You are not allowed to delete tickets
+
+
+  /v1/tickets/{id}:
+    get:
+      summary: Get specific ticket by ID
+      tags:
+        - Ticket
+      parameters:
+        - name: id
+          in: path
+          description: identificator of the ticket
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+  /v1/tickets/{id}/buy:
+    post:
+      summary: Buy specific ticket
+      tags:
+        - Ticket
+      requestBody:
+        description: data that is needed for ticket buy
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User/properties/id"
+      responses:
+        200:
+          description: OK
+  /v1/control/flights:
+    get:
+      tags:
+        - ControlRoom
+      summary: Get all flights
+      # Добавить параметры запроса для вывода рейсов: по аэропортам (из какого аэропорта и в какой), в какой временной промежуток рейсы
+      responses:
+        '200':
+          description: OK
+  /v1/control/flights/{id}:
+    get:
+      tags:
+        - ControlRoom
+      summary: Get specific flight details
+      parameters:
+        - in: query
+          name: flight
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+  /v1/profile:
+    get:
+      summary: Get all profile info
+      tags:
+        - Profile
+      parameters:
+        - name: id
+          in: query
+          description: unique id of user
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    put:
+      summary: Change info in User profile
+      description: Change user data in DataBase
+      tags:
+        - Profile
+      requestBody:
+        $ref: "#/components/schemas/User"
+      responses:
+        202:
+          description: User info changed
+
+
+
+
+
+
+
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        passport:
+          required: false
+          type: integer
+        flight:
+          required: true
+          type: string
+        datetime:
+          required: true
+          type: string
+        bookingNumber:
+          required: true
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          description: User UUID
+          required: true
+          type: integer
+        passport:
+          description: Person passport number
+          required: true
+          type: integer
+        name:
+          required: true
+          type: string
+        lastName:
+          required: true
+          type: string
+        password:
+          description: User hashed password
+    Flight:
+      type: object
+      properties:
+        id:
+          required: true
+          type: integer
+        airCompany:
+          required: true
+          type: object
+        departure:
+          description: Departure time and Airport code
+          type: object
+          properties:
+            airportCode:
+              type: integer
+              required: true
+            datetime:
+              description: date and time of departure
+              type: string
+
+          required: true
+        arrival:
+          description: Arrival Airport code
+          type: object
+          properties:
+            airportCode:
+              type: integer
+              required: true
+            datetime:
+              description: date and time of arrival
+              type: string
+        plane:
+          description: Plain that will be in the flight
+          $ref: "#/components/schemas/Plane"
+
+    Plane:
+      type: object
+      properties:
+        plainCode:
+          type: integer
+        amountOfPlaces:
+          description: How many people can be in plane
+          type: integer
+        status:
+          type: integer
+          description: 0 - not ready to flight, 1 - ready to flight, 2 - in flight,
+          enum:
+            - 0
+            - 1
+            - 2
+        location:
+          type: integer
+          description: where is located last time (airportCode)
