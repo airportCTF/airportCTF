@@ -1,0 +1,12 @@
+name: airport
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - nginx_logs:/var/log/nginx
+
+volumes:
+  nginx_logs:
