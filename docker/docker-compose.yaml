@@ -7,6 +7,14 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - nginx_logs:/var/log/nginx
-
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: airport
+      POSTGRES_USER: airport
+      POSTGRES_DB: airport
+    volumes:
+      - db_data:/var/lib/postgresql/data
 volumes:
   nginx_logs:
+  db_data:
