@@ -1,6 +1,7 @@
 package user
 
 type User struct {
+	ID           int
 	Login        string
 	PasswordHash string
 	IsAdmin      bool
