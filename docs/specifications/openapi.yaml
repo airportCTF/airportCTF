@@ -207,21 +207,6 @@ paths:
 
 components:
   schemas:
-    Ticket:
-      type: object
-      properties:
-        passport:
-          required: false
-          type: integer
-        flight:
-          required: true
-          type: string
-        datetime:
-          required: true
-          type: string
-        bookingNumber:
-          required: true
-          type: string
     User:
       type: object
       properties:
@@ -241,16 +226,31 @@ components:
           type: string
         password:
           description: User hashed password
+    Ticket:
+      type: object
+      properties:
+        PNR:
+          description: random id of ticket, 16 digit number can contain only numbers
+          required: true
+          type: integer
+        PassportNumber:
+          description: passport number that contains 9 digits
+          required: true
+          type: integer
+        Flight:
+          description: Plain that will be in the flight
+          $ref: "#/components/schemas/Flight"
+        Datetime:
+          description: datetime of departure
+          required: true
+          type: string
     Flight:
       type: object
       properties:
-        id:
+        ID:
           required: true
           type: integer
-        airCompany:
-          required: true
-          type: object
-        departure:
+        Departure:
           description: Departure time and Airport code
           type: object
           properties:
@@ -260,9 +260,8 @@ components:
             datetime:
               description: date and time of departure
               type: string
-
           required: true
-        arrival:
+        Arrival:
           description: Arrival Airport code
           type: object
           properties:
@@ -272,19 +271,23 @@ components:
             datetime:
               description: date and time of arrival
               type: string
-        plane:
+        Plane:
           description: Plain that will be in the flight
           $ref: "#/components/schemas/Plane"
-
     Plane:
       type: object
       properties:
-        plainCode:
+        PlaneOwner:
+          description: Which AirCompany Owns this Plane
+          required: true
+          type: string
+        PlaneCode:
+          description: Unique code of this plane
           type: integer
-        amountOfPlaces:
-          description: How many people can be in plane
+        AmountOfPlaces:
+          description: How many passengers can be in plane
           type: integer
-        status:
+        PlaneStatus:
           type: integer
           description: 0 - not ready to flight, 1 - ready to flight, 2 - in flight,
           enum:
