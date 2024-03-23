@@ -1,5 +1,11 @@
 name: airport
 services:
+  ticket:
+    build:
+      context: ../
+      dockerfile: ticket/build/Dockerfile
+    ports:
+      - "8010:8010"
   nginx:
     image: nginx:latest
     ports:

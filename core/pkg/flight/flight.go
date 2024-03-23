@@ -34,14 +34,3 @@ type Plane struct {
 	PlaneStatus    PlaneStatus // Status of the plane
 	location       AirportCode // Where is located last time (AirportCode)
 }
-
-//func NewFlight(number, airCompany, from, to, date, plane string) Flight {
-//	return Flight{
-//		Number:     number,
-//		AirCompany: airCompany,
-//		From:       from,
-//		To:         to,
-//		Date:       date,
-//		Plane:      plane,
-//	}
-//}

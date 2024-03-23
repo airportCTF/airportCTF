@@ -22,3 +22,4 @@ go.work
 
 #environment file
 */.env
+.idea

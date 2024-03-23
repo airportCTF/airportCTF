@@ -5,7 +5,7 @@ WORKDIR /go/src/app
 COPY . .
 
 RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app ticket/cmd/main.go
 EXPOSE 8010
 
 FROM gcr.io/distroless/static-debian12
