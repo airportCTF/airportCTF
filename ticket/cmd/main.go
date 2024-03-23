@@ -1,13 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"ticketApp/internal/ticket"
+	"github.com/chessnok/airportCTF/ticket/internal/application"
+	"os"
 )
 
 func main() {
-	for {
-		fmt.Println(ticket.CreateTicket())
-	}
+	os.Exit(MainWithCode())
+}
 
+func MainWithCode() int {
+	app := application.NewApplication()
+	app.Run()
+	return 0
 }

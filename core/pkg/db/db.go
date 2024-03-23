@@ -1,14 +1,18 @@
 package db
 
-import "database/sql"
+import (
+	"database/sql"
+	"github.com/chessnok/airportCTF/core/pkg/db/ticket"
+)
 
 type Postgres struct {
-	config *Config
-	db     *sql.DB
+	config  *Config
+	db      *sql.DB
+	tickets *ticket.Tickets
 }
 
-func NewPostgres(config *Config) Postgres {
-	return Postgres{config: config, db: nil}
+func NewPostgres(config *Config) *Postgres {
+	return &Postgres{config: config, db: nil}
 }
 
 func (pg *Postgres) Connect() error {
