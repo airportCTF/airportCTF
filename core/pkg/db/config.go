@@ -27,8 +27,8 @@ func NewConfig(host string, port int, user, password, database string) Config {
 	}
 }
 
-func NewConfigFromEnv() Config {
-	return Config{
+func NewConfigFromEnv() *Config {
+	return &Config{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     5432,
 		User:     os.Getenv("DB_USER"),
