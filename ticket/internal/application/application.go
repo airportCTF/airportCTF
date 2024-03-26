@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/db"
 	http2 "github.com/chessnok/airportCTF/ticket/http"
-	"github.com/labstack/echo/v4"
 	"log/slog"
-	"net/http"
 	"os"
 	"sync"
 )
@@ -40,12 +38,7 @@ func (a *Application) setupLogger() {
 }
 
 func (a *Application) setupServer() {
-	a.Server = echo.New()
-	a.Server.POST("/v1/tickets", http2.NewTicket)
-	a.Server.GET("/ping", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, "pong")
-	})
-	a.Logger.Info("Registered Echo server")
+	a.Server = http2.NewServer()
 }
 
 func (a *Application) setupDB() {

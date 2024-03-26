@@ -13,3 +13,12 @@ func NewTicket(c echo.Context) error {
 	}
 	return c.JSON(http.StatusCreated, t)
 }
+
+func NewServer() *echo.Echo {
+	server := echo.New()
+	server.POST("/v1/tickets", NewTicket)
+	server.GET("/ping", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, "pong")
+	})
+	return server
+}
