@@ -20,7 +20,7 @@ func (pg *Postgres) init() error {
         booking_number TEXT NOT NULL,
         passport_num TEXT NOT NULL,
         flight_number TEXT NOT NULL,
-        datetime TEXT NOT NULL
+        datetime DATE NOT NULL
     );
     `
 
@@ -28,7 +28,6 @@ func (pg *Postgres) init() error {
 	createFlightTable := `
     CREATE TABLE IF NOT EXISTS flights (
         number TEXT PRIMARY KEY,
-        air_company TEXT NOT NULL,
         from_airport TEXT NOT NULL,
         to_airport TEXT NOT NULL,
         date TEXT NOT NULL,

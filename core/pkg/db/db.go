@@ -2,13 +2,18 @@ package db
 
 import (
 	"database/sql"
+	"github.com/chessnok/airportCTF/core/pkg/db/flight"
 	"github.com/chessnok/airportCTF/core/pkg/db/ticket"
+	"github.com/chessnok/airportCTF/core/pkg/db/user"
+	_ "github.com/lib/pq"
 )
 
 type Postgres struct {
 	config  *Config
 	db      *sql.DB
 	tickets *ticket.Tickets
+	flights *flight.Flights
+	users   *user.Users
 }
 
 func NewPostgres(config *Config) *Postgres {

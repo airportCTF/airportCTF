@@ -18,6 +18,15 @@ func (t *Tickets) PutToDB(ticket *ticket2.Ticket) error {
 	return err
 }
 
+func (t *Tickets) DeleteFromDB(pnr int) error {
+	_, err := t.db.Exec("DELETE FROM tickets WHERE pnr = $1", pnr)
+	return err
+}
+
+func (t *Tickets) UpdateInDB(ticket *ticket2.Ticket) error {
+	_, err := t.db.Exec("UPDATE tickets SET passport_number = $1, flight_id = $2, datetime = $3 WHERE pnr = $4", ticket.PassportNumber, ticket.Flight.ID, ticket.Datetime, ticket.PNR)
+	return err
+}
 func (t *Tickets) GetFromDB(pnr int) (*ticket2.Ticket, error) {
 	row := t.db.QueryRow("SELECT pnr, passport_number, flight_id, datetime FROM tickets WHERE pnr = $1", pnr)
 	tick := &ticket2.Ticket{}

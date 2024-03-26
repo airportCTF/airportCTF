@@ -14,17 +14,11 @@ const (
 
 // Flight is a structure that contains information about which plane will be flying and from where it departure and where it arrives
 type Flight struct {
-	ID        int // Flight ID
-	Departure FlightSegment
-	Arrival   FlightSegment
-	Plane     Plane
-}
-
-// FlightSegment contains info about time and airport code. it allows to set Departure and Arrival of Flight
-type FlightSegment struct {
-	AirportCode int       // specific code of the airport
-	datetime    time.Time // time for this FlightSegment
-
+	ID    int // Flight ID
+	From  int
+	To    int
+	Date  time.Time
+	Plane Plane
 }
 
 type Plane struct {
