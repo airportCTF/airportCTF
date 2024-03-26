@@ -9,8 +9,6 @@ services:
       DB_NAME: airport
       DB_PASSWORD: airport
       DB_USER: airport
-    ports:
-      - "8080:8080"
     depends_on:
       db:
         condition: service_healthy

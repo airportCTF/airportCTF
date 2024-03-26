@@ -28,8 +28,8 @@ func (a *Application) Run() {
 func NewApplication() *Application {
 	app := &Application{}
 	app.setupLogger()
-	app.setupServer()
 	app.setupDB()
+	app.setupServer()
 	return app
 }
 func (a *Application) setupLogger() {
@@ -37,7 +37,7 @@ func (a *Application) setupLogger() {
 }
 
 func (a *Application) setupServer() {
-	a.Server = http2.NewServer(a.Logger)
+	a.Server = http2.NewServer(a.Logger, a.DB)
 }
 
 func (a *Application) setupDB() {

@@ -11,9 +11,9 @@ import (
 type Postgres struct {
 	config  *Config
 	db      *sql.DB
-	tickets *ticket.Tickets
-	flights *flight.Flights
-	users   *user.Users
+	Tickets *ticket.Tickets
+	Flights *flight.Flights
+	Users   *user.Users
 }
 
 func NewPostgres(config *Config) *Postgres {
@@ -32,5 +32,8 @@ func (pg *Postgres) Connect() error {
 	if err := pg.init(); err != nil {
 		return err
 	}
+	pg.Tickets = ticket.NewTickets(pg.db)
+	pg.Flights = flight.NewFlights(pg.db)
+	pg.Users = user.NewUsers(pg.db)
 	return nil
 }
