@@ -1,23 +1,38 @@
 package application
 
 import (
+	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/db"
 	http2 "github.com/chessnok/airportCTF/ticket/http"
 	"github.com/labstack/echo/v4"
 	"log/slog"
 	"net/http"
 	"os"
+	"sync"
 )
 
 func (a *Application) Run() {
 	a.Logger.Info("Starting application")
-	a.Server.Logger.Fatal(a.Server.Start(":8080"))
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		a.Logger.Error(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8080")))
+		wg.Done()
+	}()
+	err := a.DB.Connect()
+	if err != nil {
+		a.Logger.Info(fmt.Sprintf("Didn't connect to DB, error: %v", err))
+		wg.Done()
+	}
+	wg.Wait()
+	return
 }
 
 func NewApplication() *Application {
 	app := &Application{}
 	app.setupLogger()
 	app.setupServer()
+	app.setupDB()
 	return app
 }
 func (a *Application) setupLogger() {
@@ -30,7 +45,7 @@ func (a *Application) setupServer() {
 	a.Server.GET("/ping", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, "pong")
 	})
-	a.Logger.Info("Starting Echo server", a.Server.Start("0.0.0.0:8010"))
+	a.Logger.Info("Registered Echo server")
 }
 
 func (a *Application) setupDB() {
