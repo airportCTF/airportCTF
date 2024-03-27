@@ -2,19 +2,21 @@ package ticket
 
 import (
 	"database/sql"
+	"github.com/chessnok/airportCTF/core/pkg/db/flight"
 	ticket2 "github.com/chessnok/airportCTF/core/pkg/ticket"
 )
 
 type Tickets struct {
 	db *sql.DB
+	*flight.Flights
 }
 
 func NewTickets(db *sql.DB) *Tickets {
-	return &Tickets{db: db}
+	return &Tickets{db: db, Flights: flight.NewFlights(db)}
 }
 
 func (t *Tickets) PutToDB(ticket *ticket2.Ticket) error {
-	_, err := t.db.Exec("INSERT INTO tickets (pnr, passport_num, flight_number, datetime) VALUES ($1, $2, $3, $4)", ticket.PNR, ticket.PassportNumber, ticket.Flight.ID, ticket.Datetime)
+	_, err := t.db.Exec("INSERT INTO tickets (pnr, passport_num, flight_number, datetime, booking_number) VALUES ($1, $2, $3, $4, $5)", ticket.PNR, ticket.PassportNumber, ticket.Flight.ID, ticket.Datetime, ticket.BookingNumber)
 	return err
 }
 
@@ -28,9 +30,9 @@ func (t *Tickets) UpdateInDB(ticket *ticket2.Ticket) error {
 	return err
 }
 func (t *Tickets) GetFromDB(pnr int) (*ticket2.Ticket, error) {
-	row := t.db.QueryRow("SELECT pnr, passport_num, flight_number, datetime FROM tickets WHERE pnr = $1", pnr)
+	row := t.db.QueryRow("SELECT pnr, passport_num, flight_number, datetime, booking_number FROM tickets WHERE pnr = $1", pnr)
 	tick := &ticket2.Ticket{}
-	err := row.Scan(&tick.PNR, &tick.PassportNumber, &tick.Flight.ID, &tick.Datetime)
+	err := row.Scan(&tick.PNR, &tick.PassportNumber, &tick.Flight.ID, &tick.Datetime, &tick.BookingNumber)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +40,7 @@ func (t *Tickets) GetFromDB(pnr int) (*ticket2.Ticket, error) {
 }
 
 func (t *Tickets) GetAllFromDB() ([]*ticket2.Ticket, error) {
-	rows, err := t.db.Query("SELECT pnr, passport_num, flight_number, datetime FROM tickets")
+	rows, err := t.db.Query("SELECT pnr, passport_num, flight_number, datetime, booking_number FROM tickets")
 	if err != nil {
 		return nil, err
 	}
@@ -46,10 +48,15 @@ func (t *Tickets) GetAllFromDB() ([]*ticket2.Ticket, error) {
 	tickets := make([]*ticket2.Ticket, 0)
 	for rows.Next() {
 		tick := &ticket2.Ticket{}
-		err := rows.Scan(&tick.PNR, &tick.PassportNumber, &tick.Flight.ID, &tick.Datetime)
+		err := rows.Scan(&tick.PNR, &tick.PassportNumber, &tick.Flight.ID, &tick.Datetime, &tick.BookingNumber)
 		if err != nil {
 			return nil, err
 		}
+		fl, erro := t.Flights.GetFromDB(tick.Flight.ID)
+		if erro != nil {
+			continue
+		}
+		tick.Flight = *fl
 		tickets = append(tickets, tick)
 	}
 	return tickets, nil

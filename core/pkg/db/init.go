@@ -30,11 +30,20 @@ func (pg *Postgres) init() error {
         number TEXT PRIMARY KEY,
         from_airport TEXT NOT NULL,
         to_airport TEXT NOT NULL,
-        date TEXT NOT NULL,
+        date DATE NOT NULL,
         plane TEXT NOT NULL
     );
     `
-
+	//createPlaneTable := `
+	//CREATE TABLE IF NOT EXISTS Planes (
+	//    		plane TEXT PRIMARY KEY,
+	//    		places INT NOT NULL
+	//    	);
+	//INSERT INTO Planes (plane, places) VALUES ('Boeing 737', 150);
+	//INSERT INTO Planes (plane, places) VALUES ('Boeing 747', 300);
+	//INSERT INTO Planes (plane, places) VALUES ('Airbus A320', 180);
+	//INSERT INTO Planes (plane, places) VALUES ('Airbus A380', 500);
+	//`
 	_, err := pg.db.Exec(createUserTable)
 	if err != nil {
 		return err
@@ -47,5 +56,9 @@ func (pg *Postgres) init() error {
 	if err != nil {
 		return err
 	}
+	//_, err = pg.db.Exec(createPlaneTable)
+	//if err != nil {
+	//	return err
+	//}
 	return nil
 }
