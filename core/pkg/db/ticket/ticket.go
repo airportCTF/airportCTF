@@ -2,15 +2,17 @@ package ticket
 
 import (
 	"database/sql"
+	"github.com/chessnok/airportCTF/core/pkg/db/flight"
 	ticket2 "github.com/chessnok/airportCTF/core/pkg/ticket"
 )
 
 type Tickets struct {
 	db *sql.DB
+	*flight.Flights
 }
 
 func NewTickets(db *sql.DB) *Tickets {
-	return &Tickets{db: db}
+	return &Tickets{db: db, Flights: flight.NewFlights(db)}
 }
 
 func (t *Tickets) PutToDB(ticket *ticket2.Ticket) error {
@@ -50,6 +52,11 @@ func (t *Tickets) GetAllFromDB() ([]*ticket2.Ticket, error) {
 		if err != nil {
 			return nil, err
 		}
+		fl, erro := t.Flights.GetFromDB(tick.Flight.ID)
+		if erro != nil {
+			continue
+		}
+		tick.Flight = *fl
 		tickets = append(tickets, tick)
 	}
 	return tickets, nil
