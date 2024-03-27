@@ -1,15 +1,24 @@
 package http
 
 import (
-	"github.com/chessnok/airportCTF/core/pkg/ticket"
+	"github.com/chessnok/airportCTF/core/pkg/db"
 	"github.com/labstack/echo/v4"
-	"net/http"
+	"log"
 )
 
-func NewTicket(c echo.Context) error {
-	t := new(ticket.Ticket)
-	if err := c.Bind(t); err != nil {
-		return err
+func NewLoggingMiddleware(logger *log.Logger) echo.MiddlewareFunc {
+	return func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			logger.Printf("Request: %s %s", c.Request().Method, c.Request().URL.Path)
+			return next(c)
+		}
 	}
-	return c.JSON(http.StatusCreated, t)
+}
+func NewServer(logger *log.Logger, db *db.Postgres) *echo.Echo {
+	server := echo.New()
+	server.Use(NewLoggingMiddleware(logger))
+	g := server.Group("/v1")
+	g.POST("/tickets", NewTicket(db))
+	g.GET("/tickets", GetTickets(db))
+	return server
 }

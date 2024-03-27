@@ -4,24 +4,21 @@ import (
 	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/db"
 	http2 "github.com/chessnok/airportCTF/ticket/http"
-	"github.com/labstack/echo/v4"
-	"log/slog"
-	"net/http"
-	"os"
+	"log"
 	"sync"
 )
 
 func (a *Application) Run() {
-	a.Logger.Info("Starting application")
+	a.Logger.Println("Starting application")
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
-		a.Logger.Error(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8080")))
+		a.Logger.Fatal(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8080")))
 		wg.Done()
 	}()
 	err := a.DB.Connect()
 	if err != nil {
-		a.Logger.Info(fmt.Sprintf("Didn't connect to DB, error: %v", err))
+		a.Logger.Fatal(fmt.Sprintf("Error while connecting to DB, error: %v", err))
 		wg.Done()
 	}
 	wg.Wait()
@@ -31,21 +28,16 @@ func (a *Application) Run() {
 func NewApplication() *Application {
 	app := &Application{}
 	app.setupLogger()
-	app.setupServer()
 	app.setupDB()
+	app.setupServer()
 	return app
 }
 func (a *Application) setupLogger() {
-	a.Logger = slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{}))
+	a.Logger = log.Default()
 }
 
 func (a *Application) setupServer() {
-	a.Server = echo.New()
-	a.Server.POST("/v1/tickets", http2.NewTicket)
-	a.Server.GET("/ping", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, "pong")
-	})
-	a.Logger.Info("Registered Echo server")
+	a.Server = http2.NewServer(a.Logger, a.DB)
 }
 
 func (a *Application) setupDB() {
