@@ -13,7 +13,7 @@ func (a *Application) Run() {
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
-		a.Logger.Fatal(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8080")))
+		a.Logger.Fatal(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8011")))
 		wg.Done()
 	}()
 	err := a.DB.Connect()
