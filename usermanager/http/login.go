@@ -14,7 +14,7 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string `json:"Token" xml:"Token"`
+	Token string `json:"token" xml:"token"`
 }
 
 func Login(db *db.Postgres, secret string) func(c echo.Context) error {
