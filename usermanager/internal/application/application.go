@@ -3,7 +3,7 @@ package application
 import (
 	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/db"
-	http2 "github.com/chessnok/airportCTF/ticket/http"
+	"github.com/chessnok/airportCTF/usermanager/http"
 	"log"
 	"sync"
 )
@@ -38,7 +38,7 @@ func (a *Application) setupLogger() {
 }
 
 func (a *Application) setupServer() {
-	a.Server = http2.NewServer(a.Logger, a.DB)
+	a.Server = http.NewServer(a.Logger, a.DB)
 }
 
 func (a *Application) setupDB() {
