@@ -17,6 +17,9 @@ type RegisterRequest struct {
 
 func Register(db *db.Postgres) func(c echo.Context) error {
 	return func(c echo.Context) error {
+		if c.Get("user") != nil {
+			return c.JSON(http.StatusForbidden, "already logged in")
+		}
 		req := new(RegisterRequest)
 		if err := c.Bind(req); err != nil {
 			return c.JSON(http.StatusBadRequest, err.Error())

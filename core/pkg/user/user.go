@@ -7,7 +7,7 @@ import (
 
 type User struct {
 	Login        string `json:"login" xml:"login"`
-	PasswordHash string `json:"passwordHash" xml:"passwordHash"`
+	PasswordHash string `json:"-" xml:"-"`
 	IsAdmin      bool   `json:"isAdmin" xml:"isAdmin"`
 	PassportNum  string `json:"passportNum" xml:"passportNum"`
 	Name         string `json:"name" xml:"name"`
@@ -26,16 +26,19 @@ func NewUser(login, password, passportNum, name, lastName string, isAdmin bool) 
 	return u
 }
 
-func (u *User) ComparePassword(password string) bool {
+func generateHash(password string) string {
 	hasher := sha1.New()
 	hasher.Write([]byte(password))
 	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+	return sha
+
+}
+func (u *User) ComparePassword(password string) bool {
+	sha := generateHash(password)
 	return u.PasswordHash == sha
 }
 
 func (u *User) SetPassword(password string) {
-	hasher := sha1.New()
-	hasher.Write([]byte(password))
-	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
+	sha := generateHash(password)
 	u.PasswordHash = sha
 }

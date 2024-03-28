@@ -36,7 +36,14 @@ func NewBooking(db *db.Postgres) func(c echo.Context) error {
 		}
 		tickets := make([]ticket.Ticket, 0, len(req.Passengers))
 		for _, login := range req.Passengers {
-			//TODO: заменить на использование логина вместо паспортных данных когда будет готово API авторизации
+			u, err := db.Users.GetFromDB(login)
+			if err != nil {
+				return c.JSON(http.StatusInternalServerError, err.Error())
+			}
+			if u == nil {
+				return c.JSON(http.StatusNotFound, "user not found")
+			}
+			passportNumber := u.PassportNum
 			pnr := ""
 			for i := 0; i < 20; i++ {
 				pnr += string(byte(rand.Intn(26) + 'a'))
@@ -45,7 +52,7 @@ func NewBooking(db *db.Postgres) func(c echo.Context) error {
 				PassportNumber: login,
 				Flight:         *flight,
 				Datetime:       time.Now(),
-				BookingNumber:  bookingNumber,
+				BookingNumber:  passportNumber,
 				PNR:            pnr,
 			})
 		}
