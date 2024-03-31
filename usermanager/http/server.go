@@ -5,16 +5,21 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 func NewServer(logger *log.Logger, db *db.Postgres) *echo.Echo {
 	server := echo.New()
 	secretKey := os.Getenv("SECRET_KEY")
 	if secretKey == "" {
-		secretKey = "secret-key"
+		for i := 0; i <= 20; i++ {
+			secretKey += strconv.Itoa(rand.Intn(10))
+		}
 	}
+
 	logginMiddlewar := func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			ses, err := c.Cookie("session")

@@ -9,8 +9,8 @@ import (
 )
 
 type LoginRequest struct {
-	Login    string `json:"login" xml:"login"`
-	Password string `json:"password" xml:"password"`
+	Login    string `json:"login" xml:"login"`       // information about login of user
+	Password string `json:"password" xml:"password"` // unhashed password
 }
 
 func Login(db *db.Postgres, secret string) func(c echo.Context) error {
@@ -18,6 +18,7 @@ func Login(db *db.Postgres, secret string) func(c echo.Context) error {
 		req := new(LoginRequest)
 		r := map[string]string{}
 		if err := c.Bind(req); err != nil {
+
 			r["status"] = err.Error()
 			return c.JSON(http.StatusBadRequest, r)
 		}

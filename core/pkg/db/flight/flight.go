@@ -14,10 +14,11 @@ func NewFlights(db *sql.DB) *Flights {
 }
 
 func (f Flights) PutToDB(flight *flight.Flight) error {
-	_, err := f.db.Exec("INSERT INTO flights (id, from, to, datetime) VALUES ($1, $2, $3, $4)", flight.ID, flight.From, flight.To, flight.Date)
+	_, err := f.db.Exec("INSERT INTO flights (id, from, to, date) VALUES ($1, $2, $3, $4)", flight.ID, flight.From, flight.To, flight.Date)
 	return err
 }
 
+// GetFromDB - get information about initial flight from database by flight id
 func (f Flights) GetFromDB(id string) (*flight.Flight, error) {
 	row := f.db.QueryRow("SELECT from_airport, to_airport, date FROM flights WHERE number = $1", id)
 	fl := &flight.Flight{ID: id}

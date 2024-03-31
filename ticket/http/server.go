@@ -18,7 +18,7 @@ func NewServer(logger *log.Logger, db *db.Postgres) *echo.Echo {
 	server := echo.New()
 	server.Use(NewLoggingMiddleware(logger))
 	g := server.Group("/v1")
-	g.POST("/tickets", NewBooking(db))
+	g.POST("/tickets", NewBooking(db, logger))
 	g.GET("/tickets", GetTickets(db))
 	return server
 }
