@@ -78,5 +78,6 @@ func NewServer(logger *log.Logger, db *db.Postgres) *echo.Echo {
 	g.GET("/profile", GetProfile())
 	g.POST("/register", Register(db))
 	g.POST("/login", Login(db, secretKey))
+	g.GET("/logout", Logout())
 	return server
 }

@@ -10,6 +10,9 @@ func NewLoggingMiddleware(logger *log.Logger) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			logger.Printf("Request: %s %s", c.Request().Method, c.Request().URL.Path)
+			for k, v := range c.Request().Header {
+				logger.Printf("Header %s: %s", k, v)
+			}
 			return next(c)
 		}
 	}
