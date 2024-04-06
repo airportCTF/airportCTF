@@ -109,7 +109,7 @@
 
 4. `docker compose up`
 
-5. `для того чтобы зайти в БД: docker exec db psql`
+5. для того чтобы зайти в БД: `docker exec db psql`
 
 ## Разработчики
 
