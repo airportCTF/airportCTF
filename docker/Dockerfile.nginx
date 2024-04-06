@@ -1,0 +1,12 @@
+FROM fabiocicerchia/nginx-lua
+
+# Install build essentials
+RUN apk add --no-cache \
+    build-base \
+    gcc \
+    libc-dev \
+    make
+
+# Install lua-cjson
+RUN luarocks install lua-cjson
+RUN luarocks install lua-resty-jwt

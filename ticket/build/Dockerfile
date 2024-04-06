@@ -1,4 +1,4 @@
-FROM golang:1.22.1 as build
+FROM golang:1.22 as build
 LABEL authors="Danila Bogdanov https://t.me/DBugdanov"
 
 WORKDIR /go/src/app
