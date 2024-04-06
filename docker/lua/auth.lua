@@ -12,6 +12,11 @@ local function decode_jwt(encoded_jwt)
     if not jwt_obj.payload.login then
         return nil
     end
+    ngx.log(ngx.ERR, jwt_obj.payload.exp)
+    ngx.log(ngx.ERR, os.time())
+--    if jwt_obj.payload.exp and jwt_obj.payload.exp < os.time() then
+--        return nil
+--    end
     return jwt_obj.payload.login
 end
 local jwt_cookie = ngx.var.cookie_session
