@@ -104,7 +104,7 @@
 ## Установка и запуск
 
 1. Установите Docker
-2. git clone https://github.com/chessnok/airportCTF.git
+2. `git clone https://github.com/chessnok/airportCTF.git`
 3. `cd ./airportCTF/docker`
 
 4. `docker compose up`
