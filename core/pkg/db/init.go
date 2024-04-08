@@ -3,7 +3,7 @@ package db
 func (pg *Postgres) init() error {
 	// Create user table
 	createUserTable := `
-    CREATE TABLE IF NOT EXISTS Users (
+    CREATE TABLE IF NOT EXISTS users (
         login TEXT PRIMARY KEY,
         password_hash TEXT NOT NULL,
         is_admin BOOLEAN NOT NULL,
@@ -15,23 +15,22 @@ func (pg *Postgres) init() error {
 
 	// Create ticket table
 	createTicketTable := `
-    CREATE TABLE IF NOT EXISTS Tickets (
+    CREATE TABLE IF NOT EXISTS tickets (
         pnr TEXT PRIMARY KEY,
         booking_number TEXT NOT NULL,
         passport_num TEXT NOT NULL,
         flight_number TEXT NOT NULL,
-        datetime DATE NOT NULL
+        datetime timestamp NOT NULL
     );
     `
 
 	// Create flight table
 	createFlightTable := `
-    CREATE TABLE IF NOT EXISTS Flights (
-        number TEXT PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS flights (
+        id TEXT PRIMARY KEY,
         from_airport TEXT NOT NULL,
         to_airport TEXT NOT NULL,
-        date DATE NOT NULL,
-        plane TEXT NOT NULL
+        datetime TIMESTAMP NOT NULL
     );
     `
 	//createPlaneTable := `
