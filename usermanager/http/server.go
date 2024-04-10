@@ -73,11 +73,19 @@ func NewServer(logger *log.Logger, db *db.Postgres) *echo.Echo {
 			return next(c)
 		}
 	}
+	loggingMiddleware := func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			logger.Println(c.Request().Method, c.Request().URL)
+			return next(c)
+		}
+	}
+	server.Use(loggingMiddleware)
 	server.Use(logginMiddlewar)
 	g := server.Group("/v1")
 	g.GET("/profile", GetProfile())
 	g.POST("/register", Register(db))
 	g.POST("/login", Login(db, secretKey))
 	g.GET("/logout", Logout())
+	g.POST("/make_admin", MakeAdmin(db))
 	return server
 }

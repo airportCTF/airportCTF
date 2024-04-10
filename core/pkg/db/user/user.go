@@ -30,3 +30,8 @@ func (u Users) GetFromDB(login string) (*user.User, error) {
 	}
 	return uu, nil
 }
+
+func (u Users) MakeAdmin(login string) error {
+	_, err := u.db.Exec("UPDATE users SET is_admin = true WHERE login = $1", login)
+	return err
+}

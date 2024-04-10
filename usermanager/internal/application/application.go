@@ -4,9 +4,16 @@ import (
 	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/db"
 	"github.com/chessnok/airportCTF/usermanager/http"
+	"github.com/labstack/echo/v4"
 	"log"
 	"sync"
 )
+
+type Application struct {
+	Server *echo.Echo
+	DB     *db.Postgres
+	Logger *log.Logger
+}
 
 func (a *Application) Run() {
 	a.Logger.Println("Starting application")

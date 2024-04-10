@@ -1,12 +1,16 @@
+FROM node:21-alpine as builder
+COPY frontend/package.json /app/package.json
+COPY frontend/package-lock.json /app/package-lock.json
+WORKDIR /app
+RUN npm install
+COPY frontend/ /app/
+RUN npm run build
 FROM fabiocicerchia/nginx-lua
-
-# Install build essentials
 RUN apk add --no-cache \
     build-base \
     gcc \
     libc-dev \
     make
-
-# Install lua-cjson
 RUN luarocks install lua-cjson
 RUN luarocks install lua-resty-jwt
+COPY --from=builder /app/build /usr/share/nginx/html
