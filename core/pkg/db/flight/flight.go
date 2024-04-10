@@ -2,6 +2,7 @@ package flight
 
 import (
 	"database/sql"
+	"errors"
 	"github.com/chessnok/airportCTF/core/pkg/flight"
 )
 
@@ -23,8 +24,16 @@ func (f Flights) GetFromDB(id string) (*flight.Flight, error) {
 	row := f.db.QueryRow("SELECT from_airport, to_airport, datetime FROM flights WHERE id = $1", id)
 	fl := &flight.Flight{ID: id}
 	err := row.Scan(&fl.From, &fl.To, &fl.Date)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, err
 	}
 	return fl, nil
+}
+
+func (f Flights) DeleteFromDB(id string) error {
+	_, err := f.db.Exec("DELETE FROM flights WHERE id = $1", id)
+	return err
 }
