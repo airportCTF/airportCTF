@@ -70,6 +70,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  controlroom:
+    build:
+      dockerfile: controlroom/build/Dockerfile
+      context: ../
 volumes:
   nginx_logs:
   db_data:
