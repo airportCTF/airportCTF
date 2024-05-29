@@ -1,10 +1,15 @@
 FROM node:21-alpine as builder
-COPY frontend/package.json /app/package.json
-COPY frontend/package-lock.json /app/package-lock.json
+# if you want to build static files of frontend from source in container uncomment until horizontal line
+# COPY frontend/package.json /app/package.json
+# COPY frontend/package-lock.json /app/package-lock.json
+# WORKDIR /app
+# RUN npm install
+# COPY frontend/ /app/
+# RUN npm run build
+
+#--------------------------------------------------------
 WORKDIR /app
-RUN npm install
 COPY frontend/ /app/
-RUN npm run build
 FROM fabiocicerchia/nginx-lua
 RUN apk add --no-cache \
     build-base \
@@ -13,4 +18,4 @@ RUN apk add --no-cache \
     make
 RUN luarocks install lua-cjson
 RUN luarocks install lua-resty-jwt
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html

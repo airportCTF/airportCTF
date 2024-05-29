@@ -1,0 +1,13 @@
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icons-tabler-outline icon-tabler-plane-tilt">
+
+    <g>
+        <title>background</title>
+        <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+    </g>
+    <g>
+        <title>Layer 1</title>
+        <path id="svg_1" fill="none" d="m0,0l24,0l0,24l-24,0l0,-24z"/>
+        <ellipse stroke="null" ry="11.842102" rx="11.842102" id="svg_6" cy="11.901921" cx="11.845198" stroke-opacity="null" stroke-width="null" fill="#aaaaff"/>
+        <path fill="#ffffff" id="svg_2" d="m13.26161,6.654799l3,-2.9a2.05,2.05 0 0 1 2.9,2.9l-2.9,3l2.5,7.5l-2.5,2.55l-3.5,-6.55l-3,3l0,3l-2,2l-1.5,-4.5l-4.5,-1.5l2,-2l3,0l3,-3l-6.5,-3.5l2.5,-2.5l7.5,2.5z"/>
+    </g>
+</svg>
