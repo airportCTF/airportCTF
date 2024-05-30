@@ -16,6 +16,8 @@ export function UserButton() {
             try {
                 const profileData = await getProfile();
                 setProfile(profileData);
+                console.log(profileData.login);
+                localStorage.setItem('user', profileData.login);
             } catch (error) {
                 console.error('Failed to fetch profile:', error);
             } finally {

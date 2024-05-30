@@ -1,7 +1,7 @@
 import classes from './navbar.module.css';
 import React, {useState} from 'react';
 import {AppShell, Group, Image} from '@mantine/core';
-import {IconLogout, IconPlane, IconTicket} from '@tabler/icons-react';
+import { IconLogout, IconPlane, IconTicket, IconForms } from '@tabler/icons-react';
 import {useDisclosure} from "@mantine/hooks";
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import logo from "../../assets/AirportLogo.svg";
@@ -13,6 +13,7 @@ import {UserButton} from "../../UserButton.jsx";
 const data = [
     {link: '/', label: 'Home page', icon: IconPlane},
     {link: '/profile/tickets', label: 'Tickets', icon: IconTicket},
+    {link: '/profile/makeAdmin', label: 'Make Admin', icon: IconForms},
 ];
 
 export default function Profile() {
@@ -56,8 +57,9 @@ export default function Profile() {
                     </div>
                         <div className={classes.footer}>
                             <a href="#" className={classes.link} onClick={() => {
+                                localStorage.removeItem('user');
                                 logout().then(r => console.log(r));
-                                navigate('/auth')
+                                navigate('/auth');
 
                             }}>
                                 <IconLogout className={classes.linkIcon} stroke={1.5}/>

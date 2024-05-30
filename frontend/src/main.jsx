@@ -11,6 +11,7 @@ import Tickets from "./routes/tickets/tickets.jsx";
 import AuthenticationImage from "./routes/login/login.jsx";
 import {NotFoundTitle} from "./Error404Page.jsx";
 import {UserInfo} from "./routes/userInfo/UserInfo.jsx";
+import {MakeAdminForm} from "./routes/makeAdminForm/makeAdminForm.jsx";
 
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         children: [
             { path: "tickets", element: <Tickets/> },
             { path: "userinfo", element: <UserInfo /> },
+            { path: "makeAdmin", element: <MakeAdminForm /> },
         ],
         errorElement: <NotFoundTitle/>
     },

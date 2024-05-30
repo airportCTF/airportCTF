@@ -43,7 +43,7 @@ const AuthenticationImage = () => {
                     }
                 }
                 if (type === 'register') {
-                    console.log(data)
+                    console.log(data);
                     if (response.ok) {
                         notifications.show({
                             title: 'Register successful',

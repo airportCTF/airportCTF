@@ -1,17 +1,5 @@
 name: airport
 services:
-  controlroom:
-    build:
-      context: ../
-      dockerfile: controlroom/build/Dockerfile
-    environment:
-      DB_HOST: db
-      DB_NAME: airport
-      DB_PASSWORD: airport
-      DB_USER: airport
-    depends_on:
-      db:
-        condition: service_healthy
   ticket:
     build:
       context: ../

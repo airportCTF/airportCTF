@@ -2,6 +2,7 @@ package flight
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/flight"
 )
