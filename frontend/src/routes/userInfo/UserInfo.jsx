@@ -11,6 +11,7 @@ export function UserInfo() {
         const fetchProfile = async () => {
             try {
                 const profileData = await getProfile();
+                console.log('Profile Data:', profileData);
                 setProfile(profileData);
             } catch (error) {
                 console.error('Failed to fetch profile:', error);
@@ -53,7 +54,7 @@ export function UserInfo() {
                 Passport Number: {profile.passportNum}
             </Text>
             <Text ta="center" c="dimmed" fz="sm">
-                {(profile.isAdmin === "true") ? "Administrator" : "Regular user"}
+                {(profile.isAdmin === true) ? "Administrator" : "Regular user"}
             </Text>
         </Paper>
     );

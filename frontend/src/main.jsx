@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
+import '@mantine/dates/styles.css';
 import {MantineProvider} from "@mantine/core";
 import {Notifications} from "@mantine/notifications";
 import Profile from './routes/profile/profile.jsx'
@@ -12,6 +13,7 @@ import AuthenticationImage from "./routes/login/login.jsx";
 import {NotFoundTitle} from "./Error404Page.jsx";
 import {UserInfo} from "./routes/userInfo/UserInfo.jsx";
 import {MakeAdminForm} from "./routes/makeAdminForm/makeAdminForm.jsx";
+import {NewFlightForm} from "./routes/newFlightForm/NewFlightForm.jsx";
 
 
 const router = createBrowserRouter([
@@ -27,6 +29,7 @@ const router = createBrowserRouter([
             { path: "tickets", element: <Tickets/> },
             { path: "userinfo", element: <UserInfo /> },
             { path: "makeAdmin", element: <MakeAdminForm /> },
+            { path: "newFlight", element: <NewFlightForm /> },
         ],
         errorElement: <NotFoundTitle/>
     },

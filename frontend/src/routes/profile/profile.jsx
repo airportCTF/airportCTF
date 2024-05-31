@@ -1,7 +1,7 @@
 import classes from './navbar.module.css';
 import React, {useState} from 'react';
 import {AppShell, Group, Image} from '@mantine/core';
-import { IconLogout, IconPlane, IconTicket, IconForms } from '@tabler/icons-react';
+import { IconLogout, IconPlane, IconTicket, IconForms, IconPlaneInflight } from '@tabler/icons-react';
 import {useDisclosure} from "@mantine/hooks";
 import {Link, Outlet, useNavigate} from "react-router-dom";
 import logo from "../../assets/AirportLogo.svg";
@@ -14,6 +14,7 @@ const data = [
     {link: '/', label: 'Home page', icon: IconPlane},
     {link: '/profile/tickets', label: 'Tickets', icon: IconTicket},
     {link: '/profile/makeAdmin', label: 'Make Admin', icon: IconForms},
+    {link: '/profile/newFlight', label: 'New Flight', icon: IconPlaneInflight},
 ];
 
 export default function Profile() {

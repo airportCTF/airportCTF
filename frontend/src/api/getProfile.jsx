@@ -2,7 +2,7 @@ import {notifications} from '@mantine/notifications';
 
 export const getProfile = async () => {
     try {
-        const response = await fetch('http://localhost/api/auth/v1/profile', {
+        const response = await fetch(`${window.location.protocol}//${window.location.hostname}${window.location.port}/api/auth/v1/profile`, {
             method: 'GET',
             credentials: 'include', // для отправки куков вместе с запросом
         });
@@ -19,7 +19,7 @@ export const getProfile = async () => {
         const data = await response.json();
 
         if (data.status === 'not authorized') {
-            showNotification({
+            notifications.show({
                 title: 'Authorization Error',
                 message: 'You are not authorized to view this profile.',
                 color: 'red',

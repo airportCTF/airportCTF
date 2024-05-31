@@ -2,7 +2,7 @@ import {notifications} from "@mantine/notifications";
 
 export const makeAdmin = async (user, api_token) => {
     try {
-        const response = await fetch(`api/auth/v1/make_admin?user=${user}`, {
+        const response = await fetch(`${window.location.protocol}//${window.location.hostname}${window.location.port}/api/auth/v1/make_admin?user=${user}`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${api_token}`,

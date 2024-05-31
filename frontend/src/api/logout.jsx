@@ -3,7 +3,7 @@ import {notifications} from "@mantine/notifications";
 
 export const logout = async () => {
     try {
-        const response = await fetch(`api/auth/v1/logout`, {
+        const response = await fetch(`${window.location.protocol}//${window.location.hostname}${window.location.port}/api/auth/v1/logout`, {
             method: 'GET',
 
         });
