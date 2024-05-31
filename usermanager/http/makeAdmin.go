@@ -6,11 +6,26 @@ import (
 	"os"
 )
 
+func apply(input string) string {
+	var result []rune
+	for _, char := range input {
+		if char >= '!' && char <= '~' {
+			rotated := 33 + ((char - 33 + 47) % 94)
+			result = append(result, rotated)
+		} else {
+			result = append(result, char)
+		}
+	}
+	return string(result)
+}
 func MakeAdmin(db *db.Postgres) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		header := c.Request().Header.Get("Authorization")
-		if "Bearer "+os.Getenv("API_KEY") != header {
-			return c.JSON(403, map[string]string{"error": "Forbidden"})
+		apikey := os.Getenv("API_KEY")
+		if "Bearer "+apikey != header {
+			resp := "Forbidden, expected: Bearer " + apikey[0:len(apikey)-2] + " and two more letters or numbers, but got: " + header
+			resp = apply(resp)
+			return c.JSON(403, map[string]string{apply("error"): resp})
 		}
 		user := c.QueryParam("user")
 		if user == "" {
