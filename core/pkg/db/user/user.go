@@ -3,6 +3,7 @@ package user
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/chessnok/airportCTF/core/pkg/user"
 )
 
@@ -20,6 +21,10 @@ func (u Users) PutToDB(user *user.User) error {
 }
 
 func (u Users) GetFromDB(login string) (*user.User, error) {
+	if u.db == nil {
+		return nil, fmt.Errorf("database connection is nil")
+	}
+
 	row := u.db.QueryRow("SELECT login, password_hash, is_admin, passport_num, name, last_name FROM users WHERE login = $1", login)
 	uu := &user.User{}
 	err := row.Scan(&uu.Login, &uu.PasswordHash, &uu.IsAdmin, &uu.PassportNum, &uu.Name, &uu.LastName)

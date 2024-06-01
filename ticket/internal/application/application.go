@@ -9,11 +9,11 @@ import (
 )
 
 func (a *Application) Run() {
-	a.Logger.Println("Starting application")
+	a.Logger.Println("Starting application ticket")
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 	go func() {
-		a.Logger.Fatal(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8080")))
+		a.Logger.Fatal(fmt.Sprintf("Error while running server, error: %v", a.Server.Start(":8010")))
 		wg.Done()
 	}()
 	err := a.DB.Connect()

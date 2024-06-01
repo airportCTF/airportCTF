@@ -11,4 +11,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/app usermanager/cmd/main.go
 
 FROM gcr.io/distroless/static-debian12
 COPY --from=build /go/bin/app /
+EXPOSE 8011
 CMD ["/app"]

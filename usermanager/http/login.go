@@ -51,6 +51,7 @@ func Login(db *db.Postgres, secret string) func(c echo.Context) error {
 			Value:    tokenString,
 			HttpOnly: true,
 			Expires:  now.Add(30 * 24 * time.Hour),
+			Path:     "/",
 		}
 		c.SetCookie(cookie)
 		r["status"] = "ok"

@@ -8,8 +8,14 @@ FROM node:21-alpine as builder
 # RUN npm run build
 
 #--------------------------------------------------------
+
+# and than you need to comment all under this comment until horizontal line 2
+
 WORKDIR /app
 COPY frontend/ /app/
+
+#--------------------------------------------------------
+
 FROM fabiocicerchia/nginx-lua
 RUN apk add --no-cache \
     build-base \

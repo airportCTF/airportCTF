@@ -26,21 +26,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
-  nginx:
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./lua:/etc/nginx/lua
-      - nginx_logs:/var/log/nginx
-    depends_on:
-      - ticket
-      - usermanager
+  controlroom:
     build:
-      dockerfile: docker/Dockerfile.nginx
       context: ../
+      dockerfile: controlroom/build/Dockerfile
     environment:
-      SECRET_KEY: 0oy5hlgbmkglaffrllr@pppw34@4red%
+      DB_HOST: db
+      DB_NAME: airport
+      DB_PASSWORD: airport
+      DB_USER: airport
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     image: postgres:latest
     environment:
@@ -58,10 +55,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  controlroom:
+  nginx:
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./lua:/etc/nginx/lua
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - ticket
+      - usermanager
     build:
-      dockerfile: controlroom/build/Dockerfile
+      dockerfile: docker/Dockerfile.nginx
       context: ../
+    environment:
+      SECRET_KEY: 0oy5hlgbmkglaffrllr@pppw34@4red%
 volumes:
   nginx_logs:
   db_data:
