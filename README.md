@@ -105,11 +105,13 @@
 
 1. Установите Docker
 2. `git clone https://github.com/chessnok/airportCTF.git`
-3. `cd ./airportCTF/docker`
+3. `cd ./airportCTF/frontend`
+4. `npm install`
+5. `npm run build`
+6. `cd ../docker`
+7. `docker compose up`
 
-4. `docker compose up`
-
-5. для того чтобы зайти в БД: `docker exec db psql`
+для того чтобы зайти в БД: `docker exec db psql`
 
 ## Разработчики
 
