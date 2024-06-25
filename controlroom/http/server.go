@@ -22,15 +22,6 @@ func NewLoggingMiddleware(logger *log.Logger) echo.MiddlewareFunc {
 }
 
 func NewServer(logger *log.Logger, db *db.Postgres) *echo.Echo {
-	if logger == nil {
-		panic("logger is nil")
-	}
-	if db == nil {
-		panic("db is nil")
-	}
-	if db.Users == nil {
-		panic("db.Users is nil")
-	}
 
 	server := echo.New()
 	server.Use(NewLoggingMiddleware(logger))
